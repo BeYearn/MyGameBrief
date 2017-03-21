@@ -1,6 +1,7 @@
 package com.emagroup.briefsdk;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -34,9 +35,13 @@ public class EMASDK {
 
         JSONObject jsonObject = new JSONObject(deviceInfo);
         String s = jsonObject.toString();
-        Log.e("deviceInfo", s);
+        Log.e(Constants.GAME_INFO, s);
 
-        UCommUtil.writeFile("deviceInfo.txt",s,ConfigManager.getInstance(mActivity).getSdDir());
+        UCommUtil.writeFile(ConfigManager.getInstance(mActivity).getSdDir()+Constants.GAME_INFO,s);
+
+        Intent intent = new Intent(mActivity, UploadService.class);
+        intent.putExtra(Constants.INFO_DATA,s);
+        mActivity.startService(intent);
 
     }
 

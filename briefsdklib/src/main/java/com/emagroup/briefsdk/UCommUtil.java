@@ -11,11 +11,11 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
@@ -33,20 +33,54 @@ public class UCommUtil {
     private static final String TAG = "UCommUtil";
 
 
-    public static void writeFile(String fileName, String str, String destination) {
+    public static String readFile(String filePath) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            Log.e(TAG, "file is not exist");
+            return null;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = null;
         try {
-            //将string写入目的地
-            File settingDir = new File(destination);
-            if (!settingDir.exists()) {
-                settingDir.mkdirs();
+            reader = new BufferedReader(new FileReader(file));
+            String str;
+            while ((str = reader.readLine()) != null) {
+                builder.append(str + "\n");
             }
-            File file = new File(settingDir, fileName);
-            file.createNewFile();
-            OutputStream os = new FileOutputStream(file);
-            os.write(str.toString().getBytes());
-            os.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return builder.toString();
+    }
+
+
+    public static void writeFile(String filePath, String str) {
+        FileWriter fileWriter = null;
+        try {
+            //将string写入目的地
+            File file = new File(filePath);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
+            fileWriter = new FileWriter(file);
+            fileWriter.write(str);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fileWriter.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
