@@ -92,7 +92,7 @@ public class UCommUtil {
      */
     public static void logMap(Map<String, String> map) {
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            Log.e(entry.getKey() + "", "::" + entry.getValue());
+            L.e(entry.getKey() + "", "::" + entry.getValue());
         }
     }
 
@@ -119,7 +119,7 @@ public class UCommUtil {
             sb.append(key).append("=").append(map.get(key));
             i++;
         }
-        Log.e(TAG, "test_url___:" + sb.toString());
+        L.e(TAG, "test_url___:" + sb.toString());
         return sb.toString();
     }
 

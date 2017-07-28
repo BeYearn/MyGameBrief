@@ -2,7 +2,6 @@ package com.emagroup.briefsdk;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -13,8 +12,11 @@ import java.util.Map;
  */
 
 public class EMASDK {
+
     private static EMASDK mInstance;
+
     private Activity mActivity;
+    private int mAppKey;
 
     private EMASDK() {
     }
@@ -26,7 +28,7 @@ public class EMASDK {
         return mInstance;
     }
 
-    public void init(Activity activity) {
+    public void onCreat(Activity activity) {
         this.mActivity = activity;
 
         Map<String, String> deviceInfo = DeviceInfoManager.getInstance(mActivity).deviceInfoGather();
@@ -35,15 +37,23 @@ public class EMASDK {
 
         JSONObject jsonObject = new JSONObject(deviceInfo);
         String s = jsonObject.toString();
-        Log.e(Constants.GAME_INFO, s);
+        L.e(Constants.GAME_INFO, s);
 
         UCommUtil.writeFile(ConfigManager.getInstance(mActivity).getSdDir()+Constants.GAME_INFO,s);
 
-        Intent intent = new Intent(mActivity, UploadService.class);
-        intent.putExtra(Constants.INFO_DATA,s);
+        Intent intent = new Intent(mActivity, EmaService.class);
+        //intent.putExtra(Constants.INFO_DATA,s);
         mActivity.startService(intent);
 
     }
 
+    public void onDestory(){
+        Intent intent = new Intent(mActivity, EmaService.class);
+        mActivity.stopService(intent);
+    }
 
+
+    public int getAppKey() {
+        return mAppKey;
+    }
 }
