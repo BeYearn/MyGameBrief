@@ -20,7 +20,7 @@ public class ConfigManager {
     private String mChannel;
 
 
-    private String mSdDir = Environment.getExternalStorageDirectory() + File.separator + "EMASDK" + File.separator;
+    private String mSdDir = Environment.getExternalStorageDirectory() + File.separator + "EMASDK" + File.separator + "priConfig";
 
 
     private static final Object synchron = new Object();

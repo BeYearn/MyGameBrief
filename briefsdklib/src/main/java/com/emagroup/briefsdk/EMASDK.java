@@ -16,7 +16,7 @@ public class EMASDK {
     private static EMASDK mInstance;
 
     private Activity mActivity;
-    private int mAppKey;
+    private String mAppKey;
 
     private EMASDK() {
     }
@@ -28,19 +28,21 @@ public class EMASDK {
         return mInstance;
     }
 
-    public void onCreat(Activity activity) {
+    public void onCreat(String appKey,Activity activity) {
+        this.mAppKey =appKey;
         this.mActivity = activity;
 
+        //初始化环境
+        ConfigManager.getInstance(activity).initServerUrl();
+
+        //获取手机信息
         Map<String, String> deviceInfo = DeviceInfoManager.getInstance(mActivity).deviceInfoGather();
-        UCommUtil.logMap(deviceInfo);
-
-
         JSONObject jsonObject = new JSONObject(deviceInfo);
         String s = jsonObject.toString();
         L.e(Constants.GAME_INFO, s);
-
         UCommUtil.writeFile(ConfigManager.getInstance(mActivity).getSdDir()+Constants.GAME_INFO,s);
 
+        //启动后台服务
         Intent intent = new Intent(mActivity, EmaService.class);
         //intent.putExtra(Constants.INFO_DATA,s);
         mActivity.startService(intent);
@@ -53,7 +55,7 @@ public class EMASDK {
     }
 
 
-    public int getAppKey() {
+    public String getAppKey() {
         return mAppKey;
     }
 }

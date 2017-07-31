@@ -11,6 +11,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EMASDK.getInstance().onCreat(this);
+        EMASDK.getInstance().onCreat("864ed48309c7f9a259f769b92cc52814",this);
     }
 }

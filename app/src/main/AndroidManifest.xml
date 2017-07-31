@@ -28,6 +28,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
+
+        <meta-data
+            android:name="EMA_APP_ID"
+            android:value="n20012" />
+        <meta-data
+            android:name="EMA_CHANNEL_ID"
+            android:value="n26" />
+        <meta-data
+            android:name="EMA_CHANNEL_TAG"
+            android:value="n1001" />
+        <meta-data
+            android:name="EMA_WHICH_ENVI"
+            android:value="production" />
+
+
+
         <service android:name="com.emagroup.briefsdk.EmaService"/>
         <service android:name="com.emagroup.briefsdk.NetedDoService"/>
     </application>

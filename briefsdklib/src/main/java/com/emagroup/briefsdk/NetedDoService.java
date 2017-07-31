@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static com.emagroup.briefsdk.Constants.ACTION_REGIST_ACCOUNT;
 import static com.emagroup.briefsdk.Constants.ACTION_UPLOAD_INFO;
@@ -52,34 +51,7 @@ public class NetedDoService extends IntentService {
 
             } else if (ACTION_REGIST_ACCOUNT.equals(action)) {
 
-
-
-
-                ConfigManager mConfigManager = ConfigManager.getInstance(this);
-                DeviceInfoManager mDeviceInfoManager = DeviceInfoManager.getInstance(this);
-
-                Map<String, String> params = new HashMap<>();
-                params.put("accountType", "0");  // 弱账户
-                params.put("deviceType", "android");
-                params.put("allianceId", mConfigManager.getChannel());
-                params.put("channelTag", mConfigManager.getChannelTag());
-                params.put("appId", mConfigManager.getAppId());
-                params.put("deviceKey", mDeviceInfoManager.getDEVICE_ID());
-
-                String sign = 0 + mConfigManager.getChannel() + mConfigManager.getAppId() + mConfigManager.getChannelTag() + mDeviceInfoManager.getDEVICE_ID() + "android" + EMASDK.getInstance().getAppKey();
-                //LOG.e("rawSign",sign);
-                sign = UCommUtil.MD5(sign);
-                params.put("sign", sign);
-
-                new HttpInvoker().post(Url.getFirstLoginUrl(), params,
-                        new HttpInvoker.OnResponsetListener() {
-                            @Override
-                            public void OnResponse(String result) {
-                               // firstLoginResult(result, 0);
-                            }
-                        });
-
-
+                LoginManager.getInstance().registOrLogin(this);
 
             }
         }
